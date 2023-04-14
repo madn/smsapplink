@@ -28,6 +28,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import de.mittelabfluss.alarm.ui.theme.AlarmTheme
+import android.telephony.SmsManager
+
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("MissingPermission")
@@ -76,13 +78,16 @@ fun MyScreenContent(context: Context, myNumber: String) { // Add a context param
             onClick = {
                 val message = "link: http://mittelabfluss.de" // Set the message to send
 
-                // Use an intent to send an SMS
-                val sendIntent = Intent(Intent.ACTION_VIEW).apply {
-                    data = Uri.parse("smsto:$smsNumber")
-                    putExtra("sms_body", message)
-                }
+                val smsManager = SmsManager.getDefault()
+                smsManager.sendTextMessage(smsNumber, null, message, null, null)
 
-                context.startActivity(sendIntent) // Use the context to call startActivity
+                //     Use an intent to send an SMS
+            //    val sendIntent = Intent(Intent.ACTION_VIEW).apply {
+            //        data = Uri.parse("smsto:$smsNumber")
+            //        putExtra("sms_body", message)
+            //    }
+            //
+            //    context.startActivity(sendIntent) // Use the context to call startActivity
             },
             modifier = Modifier.padding(top = 16.dp)
         ) {
